@@ -30,6 +30,8 @@ public class PlayerCombat : NetworkBehaviour
 
         int newHp = Mathf.Max(0, target.HP.Value - damage);
         target.HP.Value = newHp;
+
+        Debug.Log($"Attack of player {target.Nickname.Value} is successfull, his current HP is {target.HP.Value}");
     }
 
     private PlayerNetwork FindOtherPlayer()
