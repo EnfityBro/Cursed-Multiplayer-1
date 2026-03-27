@@ -6,25 +6,26 @@ public class ConnectionUI : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _nicknameInput;
 
-    // Статическое поле, чтобы сохранить ник до появления сетевого игрока.
+    // Сохраняем ник локально до появления сетевого объекта игрока.
     public static string PlayerNickname { get; private set; } = "Player";
 
-    // Вызывается при нажатии кнопки Host
     public void StartAsHost()
     {
         SaveNickname();
+        // Хост одновременно является сервером и клиентом.
         NetworkManager.Singleton.StartHost();
     }
 
-    // Вызывается при нажатии кнопки Client
     public void StartAsClient()
     {
         SaveNickname();
+        // Клиент только подключается к уже запущенному хосту/серверу.
         NetworkManager.Singleton.StartClient();
     }
 
     private void SaveNickname()
     {
+        // Нормализуем ввод, чтобы сервер не получил пустую строку.
         string rawValue = _nicknameInput != null ? _nicknameInput.text : string.Empty;
         PlayerNickname = string.IsNullOrWhiteSpace(rawValue) ? "Player" : rawValue.Trim();
     }
